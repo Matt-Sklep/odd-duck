@@ -132,12 +132,6 @@ function renderChart() {
     type: 'bar',
     data: data,
     options: {
-      legend: {
-        labels: {
-          Color: 'blue',
-          Size: 18,
-        },
-      },
       scales: {
         y: {
           beginAtZero: true,
