@@ -1,10 +1,9 @@
 'use strict';
 /*---------------------------------*/
-/*------HTML Global Variables------*/
+/*------Page Global Variables------*/
 /*---------------------------------*/
 let imgContainer = document.querySelector('section');
 let resultButton = document.querySelector('button');
-let results = document.querySelector('ul');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
@@ -13,7 +12,7 @@ let image3 = document.querySelector('section img:nth-child(3)');
 /*---------------------------------*/
 let clicks = 0;
 let maxClicksAllowed = 25;
-let uniqueImageCount = 3;
+let uniqueImageCount = 6;
 let roundImgArray = [];
 CreateImg.allImgArray = [];
 /*---------------------------------*/
@@ -45,9 +44,11 @@ function renderImg() {
     }
   }
   //console.log(roundImgArray);
-  let vote1 = roundImgArray[0];
-  let vote2 = roundImgArray[1];
-  let vote3 = roundImgArray[2];
+
+  // Removes the first 3 values in the array (ie: the previous round's images)
+  let vote1 = roundImgArray.shift();
+  let vote2 = roundImgArray.shift();
+  let vote3 = roundImgArray.shift();
   //console.log(roundImgArray);
   // Adds the image's path to our img elements
   image1.src = CreateImg.allImgArray[vote1].src;
@@ -61,8 +62,6 @@ function renderImg() {
   CreateImg.allImgArray[vote1].views++;
   CreateImg.allImgArray[vote2].views++;
   CreateImg.allImgArray[vote3].views++;
-  // Resets the round array
-  roundImgArray = [];
 }
 /*---------------------------------*/
 /*----------Event Handler----------*/
@@ -92,17 +91,61 @@ function handleImgClick(event) {
 /*-----------Button Click----------*/
 /*---------------------------------*/
 function handleBtnClick() {
-  renderResults();
+  renderChart();
 }
 /*---------------------------------*/
-/*----------Results Render---------*/
+/*----------ChartJS Render---------*/
 /*---------------------------------*/
-function renderResults() {
+function renderChart() {
+  let imgNames = [];
+  let imgLikes = [];
+  let imgViews = [];
   for (let i = 0; i < CreateImg.allImgArray.length; i++) {
-    let li = document.createElement('li');
-    li.textContent = `${CreateImg.allImgArray[i].name} had ${CreateImg.allImgArray[i].views} views and ${CreateImg.allImgArray[i].clicks} votes`;
-    results.appendChild(li);
+    imgNames.push(CreateImg.allImgArray[i].name);
+    imgLikes.push(CreateImg.allImgArray[i].clicks);
+    imgViews.push(CreateImg.allImgArray[i].views);
   }
+
+  const data = {
+    labels: imgNames,
+    datasets: [
+      {
+        label: 'Times Clicked',
+        data: imgLikes,
+        //Blue
+        backgroundColor: ['rgba(255, 255, 255, 0.3)'],
+        borderColor: ['rgb(255, 255, 255)'],
+        borderWidth: 1,
+      },
+      {
+        label: 'Times Seen',
+        data: imgViews,
+        //Red
+        backgroundColor: ['rgba(255, 134, 156, 0.3)'],
+        borderColor: ['rgb(255, 39, 104)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      legend: {
+        labels: {
+          Color: 'blue',
+          Size: 18,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+  const myChart = new Chart(document.getElementById('myChart'), config);
 }
 new CreateImg('Bag', './assets/bag.jpeg');
 new CreateImg('Banana', './assets/banana.jpeg');
