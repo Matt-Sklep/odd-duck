@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+  }
+
+body {
+  background: linear-gradient(180deg, rgba(42,105,112,1) 0%, rgba(101,142,169,1) 30%, rgba(136,178,204,1) 100%);
+
+}
+
+header{
+  padding:10px;
+  margin-bottom: 30px;
+  background: linear-gradient(270deg, rgba(207,238,209,1) 0%, rgba(255,39,104,1) 50%, rgba(78,26,61,1) 100%);
+}
+
+h1 {
+  font-size: 3rem;
+  color: white;
+  margin-left: 50px;
+}
+
+main {
+  width: 1024px;
+  margin: auto;
+}
+
+h2 {
+  color: white;
+  padding: 10px;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+section {
+  width: 100%;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+section div {
+  border: 6px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 510px;
+}
+
+img {
+  width: 33%;
+  border: 5px solid transparent;
+}
+img:hover {
+  border: 5px solid red;
+  cursor: pointer;
+}
+section.no-voting img:hover {
+  border: 5px solid transparent;
+  cursor: none;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: grey;
+  color: black;
+  border: 2px solid black;
+  cursor: default;
+  margin-bottom: 30px;
+}
+button.voting {
+  padding: 10px 20px;
+  background-color: darkgreen;
+  color: white;
+  border: 2px solid black;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+ul {
+  margin-bottom: 30px;
+}
+
+li {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+footer{
+  background: linear-gradient(270deg, rgba(207,238,209,1) 0%, rgba(255,39,104,1) 50%, rgba(78,26,61,1) 100%);
+}
+
+footer p {
+  padding: 30px 0px;
+  text-align: center;
+  color: white;
+}
