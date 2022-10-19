@@ -91,12 +91,12 @@ function handleImgClick(event) {
 /*-----------Button Click----------*/
 /*---------------------------------*/
 function handleBtnClick() {
-  renderChart();
+  renderResults();
 }
 /*---------------------------------*/
 /*----------ChartJS Render---------*/
 /*---------------------------------*/
-function renderChart() {
+function renderResults() {
   let imgNames = [];
   let imgLikes = [];
   let imgViews = [];
