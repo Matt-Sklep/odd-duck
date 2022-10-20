@@ -3,7 +3,6 @@
 /*------Page Global Variables------*/
 /*---------------------------------*/
 let imgContainer = document.querySelector('section');
-let resultButton = document.querySelector('button');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
@@ -67,6 +66,7 @@ function renderImg() {
 /*----------Event Handler----------*/
 /*---------------------------------*/
 function handleImgClick(event) {
+  event.preventDefault();
   clicks++;
   let clickImg = event.target.alt;
   // For loop that goes through all the images we have created
@@ -74,6 +74,7 @@ function handleImgClick(event) {
     // Add a 'click' point to the image in our array that matches the clicked image's alt.
     if (clickImg === CreateImg.allImgArray[i].name) {
       CreateImg.allImgArray[i].clicks++;
+      storeData();
       break;
     }
   }
@@ -81,17 +82,28 @@ function handleImgClick(event) {
   if (clicks === maxClicksAllowed) {
     imgContainer.removeEventListener('click', handleImgClick);
     imgContainer.className = 'no-voting';
-    resultButton.addEventListener('click', handleBtnClick);
-    resultButton.className = 'voting';
+    renderResults();
   } else {
     renderImg();
   }
 }
 /*---------------------------------*/
-/*-----------Button Click----------*/
+/*--------Store Local Data---------*/
 /*---------------------------------*/
-function handleBtnClick() {
-  renderResults();
+function storeData() {
+  let stringifyData = JSON.stringify(CreateImg.allImgArray);
+  console.log(stringifyData);
+  localStorage.setItem('data', stringifyData);
+}
+/*---------------------------------*/
+/*------Retrieve Local Data--------*/
+/*---------------------------------*/
+function getData() {
+  let potentialData = localStorage.getItem('data');
+  if (potentialData) {
+    let parsedData = JSON.parse(potentialData);
+    CreateImg.allImgArray = parsedData;
+  }
 }
 /*---------------------------------*/
 /*----------ChartJS Render---------*/
@@ -110,9 +122,9 @@ function renderResults() {
     labels: imgNames,
     datasets: [
       {
-        label: 'Times Clicked',
+        label: 'Times Voted',
         data: imgLikes,
-        //Blue
+        //White
         backgroundColor: ['rgba(255, 255, 255, 0.3)'],
         borderColor: ['rgb(255, 255, 255)'],
         borderWidth: 1,
@@ -132,9 +144,26 @@ function renderResults() {
     type: 'bar',
     data: data,
     options: {
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: '#fff',
+            fontColor: '#fff',
+          },
+        },
+      },
       scales: {
+        x: {
+          ticks: {
+            color: '#fff',
+          },
+        },
         y: {
           beginAtZero: true,
+          ticks: {
+            color: '#fff',
+          },
         },
       },
     },
@@ -160,5 +189,6 @@ new CreateImg('Tauntaun', './assets/tauntaun.jpeg');
 new CreateImg('Unicorn', './assets/unicorn.jpeg');
 new CreateImg('Water Can', './assets/water-can.jpeg');
 new CreateImg('Wine Glass', './assets/wine-glass.jpeg');
+getData();
 renderImg();
 imgContainer.addEventListener('click', handleImgClick);
